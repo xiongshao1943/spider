@@ -1,5 +1,7 @@
 from urllib import request
 from lxml import etree
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
 url = "https://movie.douban.com/top250?start={}&filter="
 class DownLoadUrl():
@@ -39,7 +41,22 @@ class DownLoadUrl():
             for line in data:
                 f.write(line)
 
+def crawl(url):
+    driver.get(url)
+    content = driver.find_elements_by_xpath("//div[@class='item']")
+    for tag in content:
+        print(tag.text)
+        print('')
+
+if __name__ == '__main__':
+    driver = webdriver.Chrome()
+    print(u'豆瓣电影250: 序号 \t影片名\t 评分 \t评价人数')
+    print(u'爬取信息如下:\n')
+    for i in range(0,10):
+        crawl(url.format(i * 25))
+
 
 if __name__ == '__main__':
     for i in range(0,10):
-        DownLoadUrl(url.format(i * 25))
+        #DownLoadUrl(url.format(i * 25))
+        crawl(url.format(i * 25))
